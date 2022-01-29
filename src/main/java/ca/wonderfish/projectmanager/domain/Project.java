@@ -1,8 +1,12 @@
 package ca.wonderfish.projectmanager.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+import org.hibernate.annotations.NotFound;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -12,13 +16,27 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "project name is required")
     private String projectName;
+
+    @NotBlank(message = "project identifier is required")
+    @Size(max = 4, min =4,message = "the project identifier should be 4 characters")
+    @Column(updatable = false,unique = true)
     private String projectIdentifier;
+
+    @NotBlank(message = "project description is required")
     private String projectDescription;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date start_date;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date created_at;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_at;
 
     public void Project(){
